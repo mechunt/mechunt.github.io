@@ -1390,9 +1390,9 @@ example = '''с содержанием:
 
 def send(message):
 	global resp_clr
-    display("Stage 2nd. Sending to AI your request.")
-    global response
-    response = requests.post(
+	display("Stage 2nd. Sending to AI your request.")
+	global response
+	response = requests.post(
       url="https://openrouter.ai/api/v1/chat/completions",
       headers={
         "Authorization": "Bearer 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",
