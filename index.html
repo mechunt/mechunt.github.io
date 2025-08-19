@@ -1286,22 +1286,6 @@ example = '''с содержанием:
 
 
 
-
-def check_text():
-    global resp_clr
-    print("Stage 2nd. Checking limits")
-    resp_clr = response.json()["choices"][0]["message"]["content"]
-    print(len(resp_clr))
-
-    if not (1400 < len(resp_clr) < 2400):
-        print("Stage 2nd. Check failed. Sending request again")
-        send(f'''Представь будто ты публицист 20-го века. Напиши пожалуйста заметку про {topic}. <Пример заметки:
-
-{example}''')
-
-
-
-
 def send(message):
     print("Stage 1st. Sending to AI your request.")
     global response
@@ -1322,7 +1306,6 @@ def send(message):
 
 })
 )
-    check_text()
 
 
 if not block:
