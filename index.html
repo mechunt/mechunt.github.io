@@ -1508,8 +1508,7 @@ for line in lines:
 def image_to_bytes(img):
 	img_bytes = io.BytesIO()
 	img.save(img_bytes, format="PNG")
-	img_bytes.seek(0)
-	return img_bytes.getvalue()
+	img_bytes.seek(0)			
 	display("All is ready! Download")
 
 image_to_bytes(economic)
