@@ -1504,10 +1504,10 @@ for line in lines:
         offset = 1140+image_height+20
         margin = 1330
         
-def download_image(img, filename="image.png"):
+def download_image(event):
     # Сохраняем изображение в байты
     img_bytes = io.BytesIO()
-    img.save(img_bytes, format="PNG")
+    economic.save(img_bytes, format="PNG")
     img_bytes.seek(0)
 
     # Конвертируем в JS-совместимый массив
@@ -1515,16 +1515,20 @@ def download_image(img, filename="image.png"):
     js_array = Uint8Array.new(to_js(byte_list))
 
     # Создаём файл и ссылку для скачивания
-    file = File.new([js_array], filename, {"type": "image/png"})
+    file = File.new([js_array], "image.png", {"type": "image/png"})
     url = URL.createObjectURL(file)
     link = document.createElement("a")
     link.href = url
-    link.download = filename
+    link.download = "image.png"
     link.click()
     URL.revokeObjectURL(url)  # освобождаем память
 
 # Привязываем к кнопке
-document.getElementById("download").addEventListener("click", lambda e: download_image(economic))
+def setup_download():
+    button = document.getElementById("download")
+    button.addEventListener("click", download_image)
+
+setup_download()
 
 
 
