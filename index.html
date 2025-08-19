@@ -1411,15 +1411,7 @@ def send(message):
 
 
 
-def show_text(event):
-	global APIKEY
-	APIKEY = document.getElementById("text_input").value
-	send(f'''Представь будто ты публицист 20-го века. Напиши пожалуйста заметку про {topic}. <Пример заметки:
 
-{example}''')
-    
-
-document.getElementById("show_button").addEventListener("click", show_text)
     
 
 def split_text_by_syllables(word, max_length):
