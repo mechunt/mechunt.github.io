@@ -1444,16 +1444,16 @@ display("Stage 4th. Making a newspaper")
 async def load_font():
 	# 1. Скачиваем шрифт (например, OpenSans с GitHub)
 	url = "https://github.com/mechunt/mechunt.github.io/a.ttf"
-	response = await fetch(url)
+	response = await pyfetch(url)
 	font_data = await response.arrayBuffer()
     
 	# 2. Конвертируем в байты и сохраняем в виртуальную FS
 	from pyodide.ffi import to_js
-	with open("opensans.ttf", "wb") as f:
+	with open("a.ttf", "wb") as f:
 		f.write(to_js(font_data).to_bytes())
     
 	# 3. Загружаем шрифт в Pillow
-	return ImageFont.truetype("a.ttf", size=20)
+	return ImageFont.truetype("a.ttf", size=38)
 
 font = await load_font()
 
