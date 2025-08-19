@@ -1232,6 +1232,7 @@ import micropip
 await micropip.install("openai")
 await micropip.install("pillow")
 await micropip.install("requests")
+from js import fetch
 #Schem of making newspapers
 #Made for IMPERIUM and powered by ChatGPT
 
@@ -1444,14 +1445,22 @@ display("Stage 4th. Making a newspaper")
 
 
 
-
+async def load_font(url):
+    try:
+        response = await fetch(url)
+        if not response.ok:
+            raise Exception(f"HTTP error! status: {response.status}")
+        font_data = await response.arrayBuffer()
+        return bytes(font_data.to_py())
+    except Exception as e:
+        print(f"Ошибка загрузки: {e}")
+        return None
 
 url = "https://raw.githubusercontent.com/mechunt/mechunt.github.io/main/a.ttf"
-response = await pyodide.http.pyfetch(url)
-font_data = await response.bytes()
+font_bytes = await load_font(url)
+if font_bytes:
+    font = ImageFont.truetype(io.BytesIO(font_bytes), size=38)
 
-# 2. Загружаем шрифт из бинарных данных
-font = ImageFont.truetype(io.BytesIO(font_data), size=38)
 
 margin = 280
 offset = 1140
