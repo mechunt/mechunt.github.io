@@ -1389,6 +1389,7 @@ example = '''с содержанием:
 
 
 def send(message):
+	global resp_clr
     display("Stage 2nd. Sending to AI your request.")
     global response
     response = requests.post(
