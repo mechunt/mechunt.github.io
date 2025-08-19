@@ -1244,23 +1244,23 @@ import re
 
 
 # Скачиваем файл с GitHub (ссылка должна быть на "Raw" версию)
-url = "https://raw.githubusercontent.com/ваш_юзер/ваш_репозиторий/main/economic.png"
+url = "https://raw.githubusercontent.com/mechunt/mechunt.github.io/main/economic.png"
 smth = await pyodide.http.pyfetch(url)
-content = await smth.bytes(io.BytesIO(content))
+content = await smth.bytes()
 
 block = 0
 response = str()
 
-economic = Image.open("economic.png")
+economic = Image.open(io.BytesIO(content))
 try:
-    screenshot = Image.open("input.png")
+	url = "https://raw.githubusercontent.com/mechunt/mechunt.github.io/main/1.png"
+	smth = await pyodide.http.pyfetch(url)
+	content = await smth.bytes(io.BytesIO(content))
+    screenshot = Image.open(io.BytesIO(content))
 except:
     pass
 try:
     screenshot = Image.open("input.jpg")
-finally:
-    print('Error: wrong screenshot\'s type (not input.png or input.jpg)')
-    block = 1
     
 eco_im = ImageDraw.Draw(economic)
 
