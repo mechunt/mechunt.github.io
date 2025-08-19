@@ -1476,7 +1476,7 @@ for line in lines:
         
 
 def image_to_bytes(img):
-    img_bytes = io.BytesIO()
+	img_bytes = io.BytesIO()
 	img.save(img_bytes, format="PNG")
 	img_bytes.seek(0)
 	return img_bytes.getvalue()
@@ -1484,13 +1484,13 @@ def image_to_bytes(img):
 image_to_bytes(economic)
 
 def download_image():
-    img = generate_image()
-    png_data = image_to_bytes(img)            
-    # Создаём Blob с типом "image/png"
-    blob = Blob.new([to_js(png_data)], {type: "image/png"})
+	img = generate_image()
+	png_data = image_to_bytes(img)            
+	# Создаём Blob с типом "image/png"
+	blob = Blob.new([to_js(png_data)], {type: "image/png"})
 	url = URL.createObjectURL(blob)
             
-    # Создаём виртуальную ссылку и кликаем
+	# Создаём виртуальную ссылку и кликаем
 	link = document.createElement("a")
 	link.href = url
 	link.download = "pillow_image.png"  # Имя файла
