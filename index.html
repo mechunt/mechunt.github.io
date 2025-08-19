@@ -1314,6 +1314,7 @@ await micropip.install("pillow")
 await micropip.install("requests")
 from js import fetch
 import pyscript
+import time
 from pyodide.ffi.wrappers import add_event_listener
 #Schem of making newspapers
 #Made for IMPERIUM and powered by ChatGPT
@@ -1407,7 +1408,7 @@ def send(message):
 
 })
 )
-	resp_clr = response.json()["choices"][0]["message"]["content"]
+	time.sleep(50)
 
 
 if not block:
@@ -1523,7 +1524,7 @@ def wrap_text_to_lines(text, line_length):
 
 
 
-
+resp_clr = response.json()["choices"][0]["message"]["content"]
 text = resp_clr
 line_length = 36
 lines = wrap_text_to_lines(text, line_length)
