@@ -1505,30 +1505,29 @@ for line in lines:
         margin = 1330
         
 img_bytes = 0
-
 def image_to_bytes(img):
-	global img_bytes
-	img_bytes = io.BytesIO()
-	img.save(img_bytes, format="PNG")
-	img_bytes.seek(0)			
-	display("All is ready! Download")
+    global img_bytes
+    img_bytes = io.BytesIO()
+    img.save(img_bytes, format="PNG")
+    img_bytes.seek(0)
+    display("All is ready! Download")
 
-image_to_bytes(economic)
+image_to_bytes(economic)  # economic — ваш объект PIL.Image
 
 def downloadFile(*args):
-	js_array = Uint8Array.new(img_bytes)
+    # Преобразуем BytesIO в список байт
+    byte_list = list(img_bytes.getvalue())
+    js_array = Uint8Array.new(to_js(byte_list))  # to_js нужен для правильной передачи в JS
 
-	file = File.new([js_array], "image.png", {type: "image/png"})
-	url = URL.createObjectURL(file)
+    file = File.new([js_array], "image.png", {"type": "image/png"})
+    url = URL.createObjectURL(file)
 
-	hidden_link = document.createElement("a")
-	hidden_link.setAttribute("download", "image.png")
-	hidden_link.setAttribute("href", url)
-	hidden_link.click()
+    hidden_link = document.createElement("a")
+    hidden_link.setAttribute("download", "image.png")
+    hidden_link.setAttribute("href", url)
+    hidden_link.click()
 
-add_event_listener(document.getElementById("download"), "click", downloadFile)
-		
-economic.save("example.png")
+document.getElementById("download").addEventListener("click", downloadFile)
 
 
 
