@@ -1247,10 +1247,7 @@ from pyscript import display
 
 
 display("Stage 1st. Getting ready")
-url = "https://raw.githubusercontent.com/mechunt/mechunt.github.io/main/1.png"
-smth = await pyodide.http.pyfetch(url)
-content = await smth.bytes()  # ← Правильный вызов
-screenshot = Image.open(io.BytesIO(content))
+
 
 block = 0
 response = str()
@@ -1262,15 +1259,32 @@ resp_clr = '''Многим известна история города Монт
 
 Там где было болото, вырыт канал, в ряд посажены березы, а на другом берегу канала посажены ели. Несмотря на тропический климат, они очень хорошо приспособились к климату. Сосновые боры уже пререкрывают вид на старую церковь.'''
 
-economic = Image.open(io.BytesIO(content))
+async def load_image(url):
+    try:
+        response = await pyodide.http.pyfetch(url)
+        if response.status != 200:
+            raise Exception(f"HTTP error {response.status}")
+        content = await response.bytes()
+        return Image.open(io.BytesIO(content))
+    except Exception as e:
+        print(f"Ошибка загрузки изображения: {e}")
+        # Создаем изображение-заглушку
+        return Image.new('RGB', (800, 600), color='gray')
 
-url = "https://raw.githubusercontent.com/mechunt/mechunt.github.io/main/1.png"
-smth = await pyodide.http.pyfetch(url)
-content = await smth.bytes(io.BytesIO(content))
-screenshot = Image.open(io.BytesIO(content))
+# Загружаем первое изображение
+economic = await load_image("https://raw.githubusercontent.com/mechunt/mechunt.github.io/main/economic.png")
 
-   
-eco_im = ImageDraw.Draw(economic)
+# Загружаем второе изображение
+screenshot = await load_image("https://raw.githubusercontent.com/mechunt/mechunt.github.io/main/1.png")
+
+# Проверяем, что изображения загружены
+if economic and screenshot:
+    print("Оба изображения успешно загружены")
+    eco_im = ImageDraw.Draw(economic)
+    
+    # Дальнейшая обработка изображений...
+else:
+    display("Error: images did not loaded")
 
 
 
