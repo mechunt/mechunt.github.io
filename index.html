@@ -1514,11 +1514,11 @@ def image_to_bytes(img):
 image_to_bytes(economic)
 
 def download_image(event=None):
-    img = document.getElementById("my-image").src
-    a = document.createElement("a")
-    a.href = img
-    a.download = "newspaper.jpg"
-    a.click()
+    response = js.fetch(image_url).then(
+        lambda r: r.blob()
+    ).then(
+        lambda b: js.saveAs(b, "image.png")
+    )
 				
 economic.save("example.png")
 
