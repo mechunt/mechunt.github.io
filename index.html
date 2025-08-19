@@ -1394,12 +1394,13 @@ example = '''с содержанием:
 
 def send(message):
 	while not APIKEY:
-		global resp_clr
-		display("Stage 2nd. Sending to AI your request.")
-		global response
-		response = requests.post(
-      	url="https://openrouter.ai/api/v1/chat/completions",
-      	headers={
+		time.sleep(0.1)
+	global resp_clr
+	display("Stage 2nd. Sending to AI your request.")
+	global response
+	response = requests.post(
+	url="https://openrouter.ai/api/v1/chat/completions",
+	headers={
         "Authorization": f"Bearer {APIKEY}",
         "Content-Type": "application/json"
       },
