@@ -1575,6 +1575,7 @@ for line in lines:
 
 
 def show_image(img):
+	display("It should begin work")
     # Сохраняем изображение в байты
     img_bytes = io.BytesIO()
     img.save(img_bytes, format="PNG")
@@ -1593,6 +1594,7 @@ def show_image(img):
     container = document.getElementById("image-container")
     container.innerHTML = ""  # очищаем предыдущие изображения
     container.appendChild(img_tag)
+	display("It should to show it")
 
 # Показываем изображение на сайте
 show_image(economic)
