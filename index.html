@@ -1446,22 +1446,12 @@ display("Stage 4th. Making a newspaper")
 
 
 
+url = "https://raw.githubusercontent.com/mechunt/mechunt.github.io/main/a.ttf"
+response = await pyodide.http.pyfetch(url)
+font_data = await response.bytes()
 
-async def load_font():
-	# 1. Скачиваем шрифт (например, OpenSans с GitHub)
-	url = "https://github.com/mechunt/mechunt.github.io/a.ttf"
-	response = await pyodide.http.pyfetch(url)
-	content = await response.bytes()
-    
-	# 2. Конвертируем в байты и сохраняем в виртуальную FS
-	from pyodide.ffi import to_js
-	with open("a.ttf", "wb") as f:
-		f.write(content)
-    
-	# 3. Загружаем шрифт в Pillow
-	return ImageFont.truetype("a.ttf", size=38)
-
-font = await load_font()
+# 2. Загружаем шрифт из бинарных данных
+font = ImageFont.truetype(io.BytesIO(font_data), size=38)
 
 margin = 280
 offset = 1140
