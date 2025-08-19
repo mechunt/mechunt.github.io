@@ -1504,30 +1504,27 @@ for line in lines:
         offset = 1140+image_height+20
         margin = 1330
         
-img_bytes = 0
-def image_to_bytes(img):
-    global img_bytes
+def download_image(img, filename="image.png"):
+    # Сохраняем изображение в байты
     img_bytes = io.BytesIO()
     img.save(img_bytes, format="PNG")
     img_bytes.seek(0)
-    display("All is ready! Download")
 
-image_to_bytes(economic)  # economic — ваш объект PIL.Image
-
-def downloadFile(*args):
-    # Преобразуем BytesIO в список байт
+    # Конвертируем в JS-совместимый массив
     byte_list = list(img_bytes.getvalue())
-    js_array = Uint8Array.new(to_js(byte_list))  # to_js нужен для правильной передачи в JS
+    js_array = Uint8Array.new(to_js(byte_list))
 
-    file = File.new([js_array], "image.png", {"type": "image/png"})
+    # Создаём файл и ссылку для скачивания
+    file = File.new([js_array], filename, {"type": "image/png"})
     url = URL.createObjectURL(file)
+    link = document.createElement("a")
+    link.href = url
+    link.download = filename
+    link.click()
+    URL.revokeObjectURL(url)  # освобождаем память
 
-    hidden_link = document.createElement("a")
-    hidden_link.setAttribute("download", "image.png")
-    hidden_link.setAttribute("href", url)
-    hidden_link.click()
-
-document.getElementById("download").addEventListener("click", downloadFile)
+# Привязываем к кнопке
+document.getElementById("download").addEventListener("click", lambda e: download_image(economic))
 
 
 
