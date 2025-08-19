@@ -1512,39 +1512,16 @@ def image_to_bytes(img):
 
 image_to_bytes(economic)
 
-async def download_image():
-    try:
-        # Создаем BytesIO объект
-        img_bytes = io.BytesIO()
-        economic.save(img_bytes, format="PNG")
-        img_bytes.seek(0)
-        
-        # Создаем Blob и URL
-        blob = Blob.new([to_js(img_bytes.getvalue())], {type: "image/png"})
-        url = URL.createObjectURL(blob)
-        
-        # Создаем и кликаем ссылку
-        link = document.createElement("a")
-        link.href = url
-        link.download = "newspaper.png"
-        document.body.appendChild(link)
-        link.click()
-        document.body.removeChild(link)
-        URL.revokeObjectURL(url)
-    except Exception as e:
-        print(f"Ошибка при скачивании: {e}")
+def download_image(event=None):
+    # получаем src картинки
+    img = document.getElementById("my-image").src
 
-# Вешаем обработчик на кнопку
-def setup_download():
-    btn = document.getElementById("download-btn")
-    if btn:
-        btn.addEventListener("click", create_proxy(download_image))
-    else:
-        print("Кнопка не найдена!")
-
-setup_download()
-
-
+    # создаём ссылку <a>
+    a = document.createElement("a")
+    a.href = img
+    a.download = "image.png"   # имя файла при сохранении
+    a.click()
+				
 economic.save("example.png")
 
 
