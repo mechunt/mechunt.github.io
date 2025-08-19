@@ -1588,7 +1588,7 @@ def show_image(img):
 	# Создаём тег <img> и вставляем на страницу
 	img_tag = document.createElement("img")
 	img_tag.src = f"data:image/png;base64,{b64_data}"
-	img_tag.style.maxWidth = "500px"  # чтобы не ломать верстку
+	img_tag.style.maxWidth = "1000px"  # чтобы не ломать верстку
 	img_tag.style.height = "auto"
 
 	# Добавляем изображение в контейнер
