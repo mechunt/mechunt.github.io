@@ -1514,16 +1514,11 @@ def image_to_bytes(img):
 image_to_bytes(economic)
 
 def download_image(event=None):
-    # получаем src картинки
     img = document.getElementById("my-image").src
-
-    # создаём ссылку <a>
     a = document.createElement("a")
     a.href = img
-    a.download = "image.png"   # имя файла при сохранении
+    a.download = "newspaper.jpg"
     a.click()
-
-pyscript.register_function("download_image", download_image)
 				
 economic.save("example.png")
 
