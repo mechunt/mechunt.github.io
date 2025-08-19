@@ -1504,8 +1504,10 @@ for line in lines:
         offset = 1140+image_height+20
         margin = 1330
         
+img_bytes = 0
 
 def image_to_bytes(img):
+	global img_bytes
 	img_bytes = io.BytesIO()
 	img.save(img_bytes, format="PNG")
 	img_bytes.seek(0)			
