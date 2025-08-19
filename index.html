@@ -1576,24 +1576,24 @@ for line in lines:
 
 def show_image(img):
 	display("It should begin work")
-    # Сохраняем изображение в байты
-    img_bytes = io.BytesIO()
-    img.save(img_bytes, format="PNG")
-    img_bytes.seek(0)
+	# Сохраняем изображение в байты
+	img_bytes = io.BytesIO()
+	img.save(img_bytes, format="PNG")
+	img_bytes.seek(0)
 
-    # Конвертируем байты в Base64
-    b64_data = base64.b64encode(img_bytes.getvalue()).decode('utf-8')
+	# Конвертируем байты в Base64
+	b64_data = base64.b64encode(img_bytes.getvalue()).decode('utf-8')
 
-    # Создаём тег <img> и вставляем на страницу
-    img_tag = document.createElement("img")
-    img_tag.src = f"data:image/png;base64,{b64_data}"
-    img_tag.style.maxWidth = "500px"  # чтобы не ломать верстку
-    img_tag.style.height = "auto"
+	# Создаём тег <img> и вставляем на страницу
+	img_tag = document.createElement("img")
+	img_tag.src = f"data:image/png;base64,{b64_data}"
+	img_tag.style.maxWidth = "500px"  # чтобы не ломать верстку
+	img_tag.style.height = "auto"
 
-    # Добавляем изображение в контейнер
-    container = document.getElementById("image-container")
-    container.innerHTML = ""  # очищаем предыдущие изображения
-    container.appendChild(img_tag)
+	# Добавляем изображение в контейнер
+	container = document.getElementById("image-container")
+	container.innerHTML = ""  # очищаем предыдущие изображения
+	container.appendChild(img_tag)
 	display("It should to show it")
 
 # Показываем изображение на сайте
