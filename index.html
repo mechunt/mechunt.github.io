@@ -1424,10 +1424,11 @@ def wrap_text_to_lines(text, line_length):
 
 
 
-display("Stage 4th. Making a newspaper")
+
 text = resp_clr
 line_length = 36
 lines = wrap_text_to_lines(text, line_length)
+display("Stage 4th. Making a newspaper")
 
 
 
@@ -1440,7 +1441,21 @@ lines = wrap_text_to_lines(text, line_length)
 
 
 
-font = ImageFont.truetype('a.ttf', size=38)
+async def load_font():
+	# 1. Скачиваем шрифт (например, OpenSans с GitHub)
+	url = "https://github.com/mechunt/mechunt.github.io/a.ttf"
+	response = await fetch(url)
+	font_data = await response.arrayBuffer()
+    
+	# 2. Конвертируем в байты и сохраняем в виртуальную FS
+	from pyodide.ffi import to_js
+	with open("opensans.ttf", "wb") as f:
+		f.write(to_js(font_data).to_bytes())
+    
+	# 3. Загружаем шрифт в Pillow
+	return ImageFont.truetype("a.ttf", size=20)
+
+font = await load_font()
 
 margin = 280
 offset = 1140
