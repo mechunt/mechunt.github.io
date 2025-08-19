@@ -1256,11 +1256,11 @@ try:
 	url = "https://raw.githubusercontent.com/mechunt/mechunt.github.io/main/1.png"
 	smth = await pyodide.http.pyfetch(url)
 	content = await smth.bytes(io.BytesIO(content))
-    screenshot = Image.open(io.BytesIO(content))
+	screenshot = Image.open(io.BytesIO(content))
 except:
-    pass
+	pass
 try:
-    screenshot = Image.open("input.jpg")
+	screenshot = Image.open("input.jpg")
     
 eco_im = ImageDraw.Draw(economic)
 
