@@ -1242,8 +1242,10 @@ import json
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 import textwrap
 import re
+from pyscript import display
 
 
+display("Stage 1st. Getting ready")
 # Скачиваем файл с GitHub (ссылка должна быть на "Raw" версию)
 url = "https://raw.githubusercontent.com/mechunt/mechunt.github.io/main/economic.png"
 smth = await pyodide.http.pyfetch(url)
@@ -1251,6 +1253,7 @@ content = await smth.bytes()
 
 block = 0
 response = str()
+resp_clr = str()
 
 economic = Image.open(io.BytesIO(content))
 try:
@@ -1287,7 +1290,7 @@ example = '''с содержанием:
 
 
 def send(message):
-    print("Stage 1st. Sending to AI your request.")
+    display("Stage 2nd. Sending to AI your request.")
     global response
     response = requests.post(
       url="https://openrouter.ai/api/v1/chat/completions",
@@ -1317,7 +1320,7 @@ if not block:
     
 
 def split_text_by_syllables(word, max_length):
-    print("Stage 3rd. Adding '-'")
+    display("Stage 3rd. Adding '-'")
     vowels = "аеёиоуыэюяАЕЁИОУЫЭЮЯ"
     consonants = "бвгджзйклмнпрстфхцчшщБВГДЖЗЙКЛМНПРСТФХЦЧШЩ"
     
@@ -1421,7 +1424,7 @@ def wrap_text_to_lines(text, line_length):
 
 
 
-print("Stage 4th. Making a newspaper")
+display("Stage 4th. Making a newspaper")
 text = resp_clr
 line_length = 36
 lines = wrap_text_to_lines(text, line_length)
