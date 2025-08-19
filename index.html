@@ -1516,8 +1516,7 @@ def image_to_bytes(img):
 image_to_bytes(economic)
 
 def downloadFile(*args):
-	js_array = Uint8Array.new(len(img_bytes))
-	js_array.assign(my_stream.getbuffer())
+	js_array = Uint8Array.new(img_bytes)
 
 	file = File.new([js_array], "image.png", {type: "image/png"})
 	url = URL.createObjectURL(file)
