@@ -1389,41 +1389,6 @@ example = '''с содержанием:
 
 Не пиши пожалуйста заголовок, а также "редакция АБВГД", "1955 год" и другие примечания-предисловия. Не форматируй текст, так как ** ** не работают итд. Лимит: 1400 символов'''
 
-
-
-
-def send(message):
-	while not APIKEY:
-		time.sleep(0.1)
-	global resp_clr
-	display("Stage 2nd. Sending to AI your request.")
-	global response
-	response = requests.post(
-	url="https://openrouter.ai/api/v1/chat/completions",
-	headers={
-        "Authorization": f"Bearer {APIKEY}",
-        "Content-Type": "application/json"
-      },
-      data=json.dumps({
-        "model": "deepseek/deepseek-r1:free",
-        "messages": [
-          {
-            "role": "user",
-            "content": message}],}));resp_clr = response.json()["choices"][0]["message"]["content"]
-
-
-
-def show_text(event):
-	global APIKEY
-	APIKEY = document.getElementById("text_input").value
-	send(f'''Представь будто ты публицист 20-го века. Напиши пожалуйста заметку про {topic}. <Пример заметки:
-
-{example}''')
-    
-
-document.getElementById("show_button").addEventListener("click", show_text)
-    
-
 def split_text_by_syllables(word, max_length):
     display("Stage 3rd. Adding '-'")
     vowels = "аеёиоуыэюяАЕЁИОУЫЭЮЯ"
@@ -1525,15 +1490,12 @@ def wrap_text_to_lines(text, line_length):
     
     return lines
 
-# Пример использования
 
-
-
-text = resp_clr
-line_length = 36
-lines = wrap_text_to_lines(text, line_length)
-display("Stage 4th. Making a newspaper")
-
+def code():
+	text = resp_clr
+	line_length = 36
+	lines = wrap_text_to_lines(text, line_length)
+	display("Stage 4th. Making a newspaper")
 
 
 
@@ -1542,68 +1504,107 @@ display("Stage 4th. Making a newspaper")
 
 
 
-async def load_font(url):
-    try:
-        response = await fetch(url)
-        if not response.ok:
-            raise Exception(f"HTTP error! status: {response.status}")
-        font_data = await response.arrayBuffer()
-        return bytes(font_data.to_py())
-    except Exception as e:
-        print(f"Ошибка загрузки: {e}")
-        return None
 
-url = "https://raw.githubusercontent.com/mechunt/mechunt.github.io/main/a.ttf"
-font_bytes = await load_font(url)
-if font_bytes:
-    font = ImageFont.truetype(io.BytesIO(font_bytes), size=38)
+	async def load_font(url):
+	    try:
+	        response = await fetch(url)
+	        if not response.ok:
+	            raise Exception(f"HTTP error! status: {response.status}")
+	        font_data = await response.arrayBuffer()
+	        return bytes(font_data.to_py())
+	    except Exception as e:
+	        print(f"Ошибка загрузки: {e}")
+	        return None
 
-
-margin = 280
-offset = 1140
+	url = "https://raw.githubusercontent.com/mechunt/mechunt.github.io/main/a.ttf"
+	font_bytes = await load_font(url)
+	if font_bytes:
+	    font = ImageFont.truetype(io.BytesIO(font_bytes), size=38)
 
 
-size_img = screenshot.size
-ss_img = ImageOps.scale(screenshot, 925/size_img[0], resample=Image.LANCZOS)
-image_height = ss_img.size[1]
+	margin = 280
+	offset = 1140
 
-for line in lines:
-    eco_im.text((margin, offset), line, font=font, fill="Black")
-    offset += font.getbbox(line)[3]
-    if offset >= 3150:
-        economic.paste(ss_img, (1330, 1140))
-        for x in range(10):
-            eco_im.rectangle([(1330+x, 1140+x), (2255-x, 1140+image_height-x)], outline="Black")
-        offset = 1140+image_height+20
-        margin = 1330
+
+	size_img = screenshot.size
+	ss_img = ImageOps.scale(screenshot, 925/size_img[0], resample=Image.LANCZOS)
+	image_height = ss_img.size[1]
+
+	for line in lines:
+	    eco_im.text((margin, offset), line, font=font, fill="Black")
+	    offset += font.getbbox(line)[3]
+	    if offset >= 3150:
+	        economic.paste(ss_img, (1330, 1140))
+	        for x in range(10):
+	            eco_im.rectangle([(1330+x, 1140+x), (2255-x, 1140+image_height-x)], outline="Black")
+	        offset = 1140+image_height+20
+	        margin = 1330
         
 
 
 
-def show_image(img):
-	display("It should begin work")
-	# Сохраняем изображение в байты
-	img_bytes = io.BytesIO()
-	img.save(img_bytes, format="PNG")
-	img_bytes.seek(0)
+	def show_image(img):
+		display("It should begin work")
+		# Сохраняем изображение в байты
+		img_bytes = io.BytesIO()
+		img.save(img_bytes, format="PNG")
+		img_bytes.seek(0)
 
-	# Конвертируем байты в Base64
-	b64_data = base64.b64encode(img_bytes.getvalue()).decode('utf-8')
+		# Конвертируем байты в Base64
+		b64_data = base64.b64encode(img_bytes.getvalue()).decode('utf-8')
 
-	# Создаём тег <img> и вставляем на страницу
-	img_tag = document.createElement("img")
-	img_tag.src = f"data:image/png;base64,{b64_data}"
-	img_tag.style.maxWidth = "1000px"  # чтобы не ломать верстку
-	img_tag.style.height = "auto"
+		# Создаём тег <img> и вставляем на страницу
+		img_tag = document.createElement("img")
+		img_tag.src = f"data:image/png;base64,{b64_data}"
+		img_tag.style.maxWidth = "1000px"  # чтобы не ломать верстку
+		img_tag.style.height = "auto"
 
-	# Добавляем изображение в контейнер
-	container = document.getElementById("image-container")
-	container.innerHTML = ""  # очищаем предыдущие изображения
-	container.appendChild(img_tag)
-	display("It should to show it")
+		# Добавляем изображение в контейнер
+		container = document.getElementById("image-container")
+		container.innerHTML = ""  # очищаем предыдущие изображения
+		container.appendChild(img_tag)
+		display("It should to show it")
 
-# Показываем изображение на сайте
-show_image(economic)
+	# Показываем изображение на сайте
+	show_image(economic)
+
+
+def send(message):
+	while not APIKEY:
+		time.sleep(0.1)
+	global resp_clr
+	display("Stage 2nd. Sending to AI your request.")
+	global response
+	response = requests.post(
+	url="https://openrouter.ai/api/v1/chat/completions",
+	headers={
+        "Authorization": f"Bearer {APIKEY}",
+        "Content-Type": "application/json"
+      },
+      data=json.dumps({
+        "model": "deepseek/deepseek-r1:free",
+        "messages": [
+          {
+            "role": "user",
+            "content": message}],}));resp_clr = response.json()["choices"][0]["message"]["content"];code()
+
+
+
+def show_text(event):
+	global APIKEY
+	APIKEY = document.getElementById("text_input").value
+	send(f'''Представь будто ты публицист 20-го века. Напиши пожалуйста заметку про {topic}. <Пример заметки:
+
+{example}''')
+    
+
+document.getElementById("show_button").addEventListener("click", show_text)
+    
+
+
+# Пример использования
+
+
 
 
         </script>
