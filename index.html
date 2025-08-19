@@ -1247,10 +1247,10 @@ from pyscript import display
 
 
 display("Stage 1st. Getting ready")
-# Скачиваем файл с GitHub (ссылка должна быть на "Raw" версию)
-url = "https://raw.githubusercontent.com/mechunt/mechunt.github.io/main/economic.png"
+url = "https://raw.githubusercontent.com/mechunt/mechunt.github.io/main/1.png"
 smth = await pyodide.http.pyfetch(url)
-content = await smth.bytes()
+content = await smth.bytes()  # ← Правильный вызов
+screenshot = Image.open(io.BytesIO(content))
 
 block = 0
 response = str()
@@ -1485,20 +1485,19 @@ def image_to_bytes(img):
 image_to_bytes(economic)
 
 def download_image():
-	img = generate_image()
-	png_data = image_to_bytes(img)            
-	# Создаём Blob с типом "image/png"
-	blob = Blob.new([to_js(png_data)], {type: "image/png"})
-	url = URL.createObjectURL(blob)
-            
-	# Создаём виртуальную ссылку и кликаем
-	link = document.createElement("a")
-	link.href = url
-	link.download = "pillow_image.png"  # Имя файла
-	link.click()
+    img_bytes = io.BytesIO()
+    economic.save(img_bytes, format="PNG")
+    img_bytes.seek(0)
+    
+    blob = Blob.new([to_js(img_bytes.getvalue())], {type: "image/png"})
+    url = URL.createObjectURL(blob)
+    
+    link = document.createElement("a")
+    link.href = url
+    link.download = "newspaper.png"  # Более осмысленное имя
+    link.click()
+    URL.revokeObjectURL(url)
 
-	# Освобождаем память
-	URL.revokeObjectURL(url)
 
 document.getElementById("download-btn").addEventListener("click", download_image)
 economic.save("example.png")
