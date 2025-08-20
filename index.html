@@ -1306,7 +1306,7 @@ footer {
 </div>
 <div>Введите свою тему (Напиши про...) >>> </div>
 <input type="text" id="test-input"/>
-  <button id="submit-button" type="submit" pys-onClick="topic_add">OK</button>
+  <button id="submitBtn" type="submit" pys-onClick="topic_add">OK</button>
 
 
 
@@ -1690,7 +1690,8 @@ async def load_font(url):
 
 	# Показываем изображение на сайте
 	show_image(economic)
-
+button = document.getElementById("submitBtn")
+button.addEventListener("click", create_proxy(get_input_value))
 
 		</script>
 
