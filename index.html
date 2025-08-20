@@ -1459,7 +1459,11 @@ def send(message):
 		"messages": [
 		  {
 			"role": "user",
-			"content": message}],}));resp_clr = response.json()["choices"][0]["message"]["content"];main()
+			"content": message}],}));try:
+		resp_clr = response.json()["choices"][0]["message"]["content"]
+		main()
+	except:
+		display(response.text)
 
 
 async def load_image(url):
