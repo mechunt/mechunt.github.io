@@ -1463,20 +1463,19 @@ def show_image(img):
 	display("It should to show it")
 
 
-async def load_font():
+def load_font():
 	url = "https://raw.githubusercontent.com/mechunt/mechunt.github.io/main/a.ttf"
 	try:
-		response = await fetch(url)
+		response = fetch(url)
 		if not response.ok:
 			raise Exception(f"HTTP error! status: {response.status}")
-			font_data = await response.arrayBuffer()
+			font_data = response.arrayBuffer()
 			font_bytes = bytes(font_data.to_py())
 	except Exception as e:
-		print(f"Ошибка загрузки: {e}")
-		return None
+		display(f"Ошибка загрузки: {e}")
 
 	if font_bytes:
-		font = ImageFont.truetype(io.BytesIO(font_bytes), size=40)
+		font = ImageFont.truetype(io.BytesIO(font_bytes), size=42)
 
 
 	margin = 280
