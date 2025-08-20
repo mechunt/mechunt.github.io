@@ -1422,7 +1422,7 @@ def send(message):
         "messages": [
           {
             "role": "user",
-            "content": message}],}));resp_clr = response.json()["choices"][0]["message"]["content"]
+            "content": message}],}));resp_clr = response.json()["choices"][0]["message"]["content"];main()
 
 
 send(f"Напиши про {topic} на примере {example}")
@@ -1532,55 +1532,14 @@ def wrap_text_to_lines(text, line_length):
 
 # Пример использования
 
-
-text = resp_clr
-line_length = 36
-lines = wrap_text_to_lines(text, line_length)
-display("Stage 4th. Making a newspaper")
-
-
-
+def main():
+	global text
+	text = resp_clr
+	line_length = 36
+	lines = wrap_text_to_lines(text, line_length)
+	display("Stage 4th. Making a newspaper")
 
 
-
-
-
-
-async def load_font(url):
-    try:
-        response = await fetch(url)
-        if not response.ok:
-            raise Exception(f"HTTP error! status: {response.status}")
-        font_data = await response.arrayBuffer()
-        return bytes(font_data.to_py())
-    except Exception as e:
-        print(f"Ошибка загрузки: {e}")
-        return None
-
-url = "https://raw.githubusercontent.com/mechunt/mechunt.github.io/main/a.ttf"
-font_bytes = await load_font(url)
-if font_bytes:
-    font = ImageFont.truetype(io.BytesIO(font_bytes), size=40)
-
-
-margin = 280
-offset = 1140
-
-
-size_img = screenshot.size
-ss_img = ImageOps.scale(screenshot, 925/size_img[0], resample=Image.LANCZOS)
-image_height = ss_img.size[1]
-
-for line in lines:
-    eco_im.text((margin, offset), line, font=font, fill="Black")
-    offset += font.getbbox(line)[3]
-    if offset >= 3150:
-        economic.paste(ss_img, (1330, 1140))
-        for x in range(10):
-            eco_im.rectangle([(1330+x, 1140+x), (2255-x, 1140+image_height-x)], outline="Black")
-        offset = 1140+image_height+20
-        margin = 1330
-        
 
 
 
@@ -1603,8 +1562,47 @@ def show_image(img):
     
     display("It should to show it")
 
-# Показываем изображение на сайте
-show_image(economic)
+
+	async def load_font(url):
+    	try:
+        	response = await fetch(url)
+        	if not response.ok:
+				raise Exception(f"HTTP error! status: {response.status}")
+        	font_data = await response.arrayBuffer()
+        	return bytes(font_data.to_py())
+    	except Exception as e:
+        	print(f"Ошибка загрузки: {e}")
+        	return None
+
+	url = "https://raw.githubusercontent.com/mechunt/mechunt.github.io/main/a.ttf"
+	font_bytes = await load_font(url)
+	if font_bytes:
+    	font = ImageFont.truetype(io.BytesIO(font_bytes), size=40)
+
+
+	margin = 280
+	offset = 1140
+
+
+	size_img = screenshot.size
+	ss_img = ImageOps.scale(screenshot, 925/size_img[0], resample=Image.LANCZOS)
+	image_height = ss_img.size[1]
+
+	for line in lines:
+    	eco_im.text((margin, offset), line, font=font, fill="Black")
+    	offset += font.getbbox(line)[3]
+    	if offset >= 3150:
+        	economic.paste(ss_img, (1330, 1140))
+        	for x in range(10):
+            	eco_im.rectangle([(1330+x, 1140+x), (2255-x, 1140+image_height-x)], outline="Black")
+        	offset = 1140+image_height+20
+        	margin = 1330
+        
+
+
+
+	# Показываем изображение на сайте
+	show_image(economic)
 
 
         </script>
