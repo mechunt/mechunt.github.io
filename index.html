@@ -1580,7 +1580,7 @@ async def load_font(url):
 	url = "https://raw.githubusercontent.com/mechunt/mechunt.github.io/main/a.ttf"
 	font_bytes = await load_font(url)
 	if font_bytes:
-    	font = ImageFont.truetype(io.BytesIO(font_bytes), size=40)
+		font = ImageFont.truetype(io.BytesIO(font_bytes), size=40)
 
 
 	margin = 280
