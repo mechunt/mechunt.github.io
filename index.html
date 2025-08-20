@@ -1456,10 +1456,8 @@ def send(message):
 	  },
 	  data=json.dumps({
 		"model": "deepseek/deepseek-r1:free",
-		"messages": [
-		  {
-			"role": "user",
-			"content": message}],}));try:
+		"messages": [{"role": "user", "content": message}]}))
+	try:
 		resp_clr = response.json()["choices"][0]["message"]["content"]
 		main()
 	except:
