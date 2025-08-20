@@ -1493,6 +1493,8 @@ else:
 topic = str()
 
 def topic_add(*args, **kwargs):
+	display('args:', args)
+	display('kwargs:', kwargs)
 	global topic
 	topic = Element('test-input').element.value
 	example = '''с содержанием:
