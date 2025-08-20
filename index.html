@@ -1443,6 +1443,61 @@ resp_clr = '''Многим известна история города Монт
 
 Там где было болото, вырыт канал, в ряд посажены березы, а на другом берегу канала посажены ели. Несмотря на тропический климат, они очень хорошо приспособились к климату. Сосновые боры уже пререкрывают вид на старую церковь.'''
 
+def show_image(img):
+	display("It should begin work")
+	
+	# Сохраняем изображение в байты
+	img_bytes = io.BytesIO()
+	img.save(img_bytes, format="PNG")
+	img_bytes.seek(0)
+
+	# Конвертируем байты в Base64
+	b64_data = base64.b64encode(img_bytes.getvalue()).decode('utf-8')
+
+	# Получаем существующий тег <img> и обновляем его атрибуты
+	img_tag = document.getElementById("image-container")
+	img_tag.src = f"data:image/png;base64,{b64_data}"
+	img_tag.style.maxWidth = "667px"
+	img_tag.style.height = "auto"
+	
+	display("It should to show it")
+
+
+def load_font():
+	url = "https://raw.githubusercontent.com/mechunt/mechunt.github.io/main/a.ttf"
+	try:
+		response = await fetch(url)
+		if not response.ok:
+			raise Exception(f"HTTP error! status: {response.status}")
+			font_data = await response.arrayBuffer()
+			font_bytes = bytes(font_data.to_py())
+	except Exception as e:
+		print(f"Ошибка загрузки: {e}")
+		return None
+
+	if font_bytes:
+		font = ImageFont.truetype(io.BytesIO(font_bytes), size=40)
+
+
+	margin = 280
+	offset = 1140
+
+
+	size_img = screenshot.size
+	ss_img = ImageOps.scale(screenshot, 925/size_img[0], resample=Image.LANCZOS)
+	image_height = ss_img.size[1]
+
+	for line in lines:
+		eco_im.text((margin, offset), line, font=font, fill="Black")
+		offset += font.getbbox(line)[3]
+		if offset >= 3150:
+			economic.paste(ss_img, (1330, 1140))
+			for x in range(10):
+				eco_im.rectangle([(1330+x, 1140+x), (2255-x, 1140+image_height-x)], outline="Black")
+			offset = 1140+image_height+20
+			margin = 1330
+	show_image(economic)
+
 
 def send(message):
 	global resp_clr
@@ -1627,66 +1682,13 @@ def main():
 	line_length = 36
 	lines = wrap_text_to_lines(text, line_length)
 	display("Stage 4th. Making a newspaper")
+	load_font()
 
 
 
 
 
-def show_image(img):
-	display("It should begin work")
-	
-	# Сохраняем изображение в байты
-	img_bytes = io.BytesIO()
-	img.save(img_bytes, format="PNG")
-	img_bytes.seek(0)
 
-	# Конвертируем байты в Base64
-	b64_data = base64.b64encode(img_bytes.getvalue()).decode('utf-8')
-
-	# Получаем существующий тег <img> и обновляем его атрибуты
-	img_tag = document.getElementById("image-container")
-	img_tag.src = f"data:image/png;base64,{b64_data}"
-	img_tag.style.maxWidth = "667px"
-	img_tag.style.height = "auto"
-	
-	display("It should to show it")
-
-
-async def load_font(url):
-	try:
-		response = await fetch(url)
-		if not response.ok:
-			raise Exception(f"HTTP error! status: {response.status}")
-			font_data = await response.arrayBuffer()
-			return bytes(font_data.to_py())
-	except Exception as e:
-		print(f"Ошибка загрузки: {e}")
-		return None
-
-	url = "https://raw.githubusercontent.com/mechunt/mechunt.github.io/main/a.ttf"
-	font_bytes = await load_font(url)
-	if font_bytes:
-		font = ImageFont.truetype(io.BytesIO(font_bytes), size=40)
-
-
-	margin = 280
-	offset = 1140
-
-
-	size_img = screenshot.size
-	ss_img = ImageOps.scale(screenshot, 925/size_img[0], resample=Image.LANCZOS)
-	image_height = ss_img.size[1]
-
-	for line in lines:
-		eco_im.text((margin, offset), line, font=font, fill="Black")
-		offset += font.getbbox(line)[3]
-		if offset >= 3150:
-			economic.paste(ss_img, (1330, 1140))
-			for x in range(10):
-				eco_im.rectangle([(1330+x, 1140+x), (2255-x, 1140+image_height-x)], outline="Black")
-			offset = 1140+image_height+20
-			margin = 1330
-	show_image(economic)
 
 
 
