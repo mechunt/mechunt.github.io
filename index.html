@@ -1573,9 +1573,9 @@ async def load_font(url):
 			raise Exception(f"HTTP error! status: {response.status}")
 			font_data = await response.arrayBuffer()
 			return bytes(font_data.to_py())
-		except Exception as e:
-			print(f"Ошибка загрузки: {e}")
-			return None
+	except Exception as e:
+		print(f"Ошибка загрузки: {e}")
+		return None
 
 	url = "https://raw.githubusercontent.com/mechunt/mechunt.github.io/main/a.ttf"
 	font_bytes = await load_font(url)
