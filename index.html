@@ -1304,9 +1304,14 @@ footer {
 
 <p>Первая газета на этом сайте</p>
 </div>
+<h3>Тема:</h3>
 <input type="text" id="myInput" placeholder="Введите текст">
+<h3>URL картинки 16:9:</h3>
+<input type="text" id="ImgInput" placeholder="Введите текст">
+<h3>API-KEY:</h3>
+<input type="text" id="myAPI" placeholder="Введите текст">
 <button id="submitBtn">Отправить</button>
-
+<p>Для того чтобы найти APIKEY, вам необходимо пройти по следующей ссылке: <a href="https://openrouter.ai/deepseek/deepseek-v3.2"> https://openrouter.ai/deepseek/deepseek-v3.2 </a>Спасибо!</p>
 
 
 <img id="image-container" style="max-width: 667px; height: auto;"></img>
@@ -1391,14 +1396,8 @@ footer {
 
 
 
-
-
-
-
-
-
 <script type="py" role="document" aria-multiline="true" class="block-editor-rich-text__editable block-editor-block-list__block wp-block wp-block-paragraph rich-text" id="block-299b0388-8dde-43e5-8462-bb373d2b4dd4" aria-label="Блок: Абзац" data-block="299b0388-8dde-43e5-8462-bb373d2b4dd4" data-type="core/paragraph" data-title="Абзац" data-empty="false" contenteditable="true" data-wp-block-attribute-key="content" style="white-space: pre-wrap; min-width: 1px;">
-from js import document, Blob, URL, Uint8Array, File
+from js import document, Blob, URL, Uint8Array, File, console
 from pyodide.ffi import to_js, create_proxy
 import pyodide.http
 import io
@@ -1424,27 +1423,29 @@ from PIL import Image, ImageDraw, ImageFont, ImageOps
 import textwrap
 import re
 from pyscript import display
+lines = []
+APIKEY = str()
+message = str()
+def process(event):
+    global message
+    global APIKEY
+    message = document.getElementById("myInput").value
+    APIKEY = document.getElementById("myAPI").value
+    return
 
 
 display("Stage 1st. Getting ready")
 
-APIKEY = "sk"+"-or-v1"+"-3e"+"f7d7"+"64247d"+"a8bc1bc"+"bc2"+"65150cd57"+"50c6dc2b3"+"98a"+"6f3211"+"19122"+"ba01f"+"84c72"
 
 
 
 
 block = 0
 response = str()
-resp_clr = '''Многим известна история города Монте-Кристо, которая кочует с его графом Кириллом Герценом. Монте-Кристо стал новой силой для экоактивистов. Город который славился только руинами старой церкви, теперь известен как город парковый комплекс. С приходом Герцена появились белокаменные каналы, появились новые леса, а также мелкий остров, который казался бы уже зарос сорняками, и весь стал желтым из-за одуванчиков. Остров был заросшим крапивой, и на него было трудно пройти.
-
-Теперь там пестрит песчанная стена, а над этой береговой линией стоит оранжевый дворец, и березовая аллея. В общем новые люди, привлекли новые инвестиции, а вот уже эти деньги пошли на облагораживание города. Теперь Монте-Кристо называют Гаитским (Доминиканским) Петергофом, а Герцена прославляют как Монте-Кристского Шереметьева.
-
-Также помимо благоустройства островов, появление новых островов из-за каналов, местные власти пытаются сделать из Монте-Кристо Санкт-Петербург. Действительно Кирилл Герцен не мог не перевезти Питерский дух из своей малой Родины, и вот это сказывается на городе. Но слава Богу только в лучшую сторону.
-
-Там где было болото, вырыт канал, в ряд посажены березы, а на другом берегу канала посажены ели. Несмотря на тропический климат, они очень хорошо приспособились к климату. Сосновые боры уже пререкрывают вид на старую церковь.'''
+resp_clr = str()
 
 def show_image(img):
-	display("It should begin work")
+#	display("It should begin work")
 	
 	# Сохраняем изображение в байты
 	img_bytes = io.BytesIO()
@@ -1460,35 +1461,26 @@ def show_image(img):
 	img_tag.style.maxWidth = "667px"
 	img_tag.style.height = "auto"
 	
-	display("It should to show it")
+	display("Stage 5th. Get your image ready!")
 
-
-def load_font():
-	url = "https://raw.githubusercontent.com/mechunt/mechunt.github.io/main/a.ttf"
-	try:
-		response = fetch(url)
-		if not response.ok:
-			raise Exception(f"HTTP error! status: {response.status}")
-			font_data = response.arrayBuffer()
-			font_bytes = bytes(font_data.to_py())
-	except Exception as e:
-		display(f"Ошибка загрузки: {e}")
-
+def work():
+#	display("work() is called!")
 	if font_bytes:
 		font = ImageFont.truetype(io.BytesIO(font_bytes), size=42)
-
-
-	margin = 280
+		display("Font is loaded in work()")
+	else:
+		display("Font's loading in work() is failed!")
+	margin = 280 
 	offset = 1140
-
 
 	size_img = screenshot.size
 	ss_img = ImageOps.scale(screenshot, 925/size_img[0], resample=Image.LANCZOS)
 	image_height = ss_img.size[1]
+	
 
 	for line in lines:
 		eco_im.text((margin, offset), line, font=font, fill="Black")
-		offset += font.getbbox(line)[3]
+		offset += font.getbbox(line)[3]+2
 		if offset >= 3150:
 			economic.paste(ss_img, (1330, 1140))
 			for x in range(10):
@@ -1497,10 +1489,27 @@ def load_font():
 			margin = 1330
 	show_image(economic)
 
+font_bytes = str()
+
+async def load_font():
+	url = "https://raw.githubusercontent.com/mechunt/mechunt.github.io/main/a.ttf"
+	if 1==1:
+		try:
+			global font_bytes
+			response = await fetch(url)
+			#raise Exception(f"HTTP error! status: {response.status}")
+			font_data = await response.arrayBuffer()
+			font_bytes = bytes(font_data.to_py())
+			return font_bytes
+		except Exception as e:
+			display(f"Ошибка загрузки: {e}")
+#		display("Font is loaded!")
+
+
 
 def send(message):
 	global resp_clr
-	display("Stage 2nd. Sending to AI your request.")
+	display(f"Stage 2nd. Sending to AI your request.")
 	global response
 	response = requests.post(
   	url="https://openrouter.ai/api/v1/chat/completions",
@@ -1509,12 +1518,13 @@ def send(message):
 		"Content-Type": "application/json"
 	  },
 	  data=json.dumps({
-		"model": "deepseek/deepseek-r1:free",
-		"messages": [{"role": "user", "content": message}]}))
+		"model": "deepseek/deepseek-v3.2",
+		"messages": [{"role": "user", "content": message}], "reasoning": {"enabled": False}}))
 	try:
 		resp_clr = response.json()["choices"][0]["message"]["content"]
 		main()
-	except:
+	except Exception as e:
+		display(f"Don't work because something wrong in json: {e}")
 		display(response.text)
 
 
@@ -1534,10 +1544,9 @@ async def load_image(url):
 economic = await load_image("https://raw.githubusercontent.com/mechunt/mechunt.github.io/main/economic.png")
 
 # Загружаем второе изображение
-screenshot = await load_image("https://raw.githubusercontent.com/mechunt/mechunt.github.io/main/1.jpg")
-
+font_bytes = await load_font()
 # Проверяем, что изображения загружены
-if economic and screenshot:
+if economic:
 	print("Оба изображения успешно загружены")
 	eco_im = ImageDraw.Draw(economic)
 	
@@ -1547,13 +1556,18 @@ else:
 
 topic = str()
 
-	
 
-def get_input_value(event=None):
-	global topic
+async def get_input_value(event=None):
+	display("clicked")
+	global topic, APIKEY, screenshot
 	input_element = document.getElementById("myInput")
+	rAPIKEY = document.getElementById("myAPI")
+	APIKEY = rAPIKEY.value
+	rimg = document.getElementById("ImgInput")
+	imgurl = rimg.value
+	screenshot = await load_image(imgurl)
 	topic = input_element.value
-	example = '''с содержанием:
+	example = '''такой заметки:
 
 Многим известна история города Монте-Кристо, которая кочует с его графом Кириллом Герценом. Монте-Кристо стал новой силой для экоактивистов. Город который славился только руинами старой церкви, теперь известен как город парковый комплекс. С приходом Герцена появились белокаменные каналы, появились новые леса, а также мелкий остров, который казался бы уже зарос сорняками, и весь стал желтым из-за одуванчиков. Остров был заросшим крапивой, и на него было трудно пройти.
 
@@ -1563,17 +1577,15 @@ def get_input_value(event=None):
 
 Там где было болото, вырыт канал, в ряд посажены березы, а на другом берегу канала посажены ели. Несмотря на тропический климат, они очень хорошо приспособились к климату. Сосновые боры уже пререкрывают вид на старую церковь.>
 
-Не пиши пожалуйста заголовок, а также "редакция АБВГД", "1955 год" и другие примечания-предисловия. Не форматируй текст, так как ** ** не работают итд. Лимит: 1400 символов''';display("Stage 1.5. Получен запрос");send(f"Напиши про {topic} на примере {example}")
+Не пиши пожалуйста заголовок, а также "редакция АБВГД", "1955 год" и другие примечания-предисловия. Не форматируй текст, так как ** ** не работают итд. Лимит: 3000 символов. Пиши похожий текст, с немного другой структурой, будто ты редактор одной из газет 20го века''';display("Stage 1.5th. We got request");send(f"Напиши про {topic} на примере {example}")
 
 
 
 button = document.getElementById("submitBtn")
 button.addEventListener("click", create_proxy(get_input_value))
 
-	
-
 def split_text_by_syllables(word, max_length):
-	display("Stage 3rd. Adding '-'")
+#	display("Stage 3rd. Adding '-'")
 	vowels = "аеёиоуыэюяАЕЁИОУЫЭЮЯ"
 	consonants = "бвгджзйклмнпрстфхцчшщБВГДЖЗЙКЛМНПРСТФХЦЧШЩ"
 	
@@ -1622,7 +1634,7 @@ def split_text_by_syllables(word, max_length):
 	return [word[:max_length] + '-', word[max_length:]]
 
 def wrap_text_to_lines(text, line_length):
-	print("Stage 3rd. Wraping text")
+	display(f"Stage 3rd. Wraping text")
 	words = re.findall(r'\S+|\n', text)
 	lines = []
 	current_line = []
@@ -1670,19 +1682,16 @@ def wrap_text_to_lines(text, line_length):
 	
 	if current_line:
 		lines.append(' '.join(current_line))
-	
 	return lines
 
 # Пример использования
-
 def main():
-	global text
+	global text, lines
 	text = resp_clr
 	line_length = 36
 	lines = wrap_text_to_lines(text, line_length)
 	display("Stage 4th. Making a newspaper")
-	load_font()
-
+	work()
 
 
 
