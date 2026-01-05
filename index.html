@@ -23,27 +23,28 @@
       font-weight: 700;
     }
 
-    /* Блок с гифкой */
-    .gif-block {
-      background: url("1.gif") center center no-repeat;
-      background-size: cover; /* гифка на всю ширину окна [web:5][web:8] */
-      height: 1100px;          /* подбирайте по нужной высоте */
+    /* Блок с видео */
+    .video-block {
+      position: relative;
+      width: 100%;
+      height: 1100px;
+      overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #777;
-      font-size: 200px;
-      font-weight: bold;
     }
-.gif-wrapper {
-  width: 160%;
-}
 
-.gif-wrapper img {
-  display: block;
-  max-width: 100%;   /* ширина не больше контейнера [web:40][web:51] */
-  height: auto;      /* высота считается автоматически, пропорции сохраняются [web:45] */
-}
+    .video-block video {
+      width: 160%;  /* как у вашего .gif-wrapper */
+      height: 100%;
+      object-fit: cover; /* заполняет блок, сохраняя пропорции [web:5] */
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+    }
+
     /* Зелёный блок с текстом */
     .bottom-text {
       background: #352122;
@@ -52,9 +53,10 @@
       font-size: 32px;
       font-weight: bold;
     }
+
     /* Секция с 3 картинками */
     .images-section {
-      background: #352122; /* чёрный фон как на примере [file:23] */
+      background: #352122;
       padding: 60px;
       display: flex;
       justify-content: space-around;
@@ -74,22 +76,32 @@
     .image-frame {
       background: #fff;
       padding: 20px;
-      border-radius: 0px; /* лёгкие скругления для современного вида */
-      box-shadow: 0 4px 8px rgba(0,0,0,0.3); /* тень как на реальных макетах [web:8] */
+      border-radius: 0px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
     }
 
     .image-box img {
       width: 100%;
       height: auto;
-      object-fit: cover; /* чтобы картинки заполняли рамку [web:8] */
+      object-fit: cover;
       margin-bottom: 10px;
-      background: #666; /* серый фон для заглушки */
+      background: #666;
     }
 
     .image-label {
       color: #000 !important;
       font-size: 40px;
       font-weight: bold;
+    }
+
+    .image-label a {
+      color: #000;
+      text-decoration: none;
+      font-size: 24px;
+    }
+
+    .image-label a:hover {
+      text-decoration: underline;
     }
 
     /* Ссылка внизу */
@@ -128,38 +140,43 @@
     mechunt | Портфолио
   </div>
 
-<div class="gif-block">
-
-</div>
+  <!-- Блок с видео вместо гифки -->
+  <div class="video-block">
+    <video autoplay muted loop playsinline>
+      <source src="1.mp4" type="video/mp4">
+      Ваш браузер не поддерживает видео.
+    </video>
+  </div>
 
   <div class="bottom-text">
     Нужен шаблон? Нужен мини монтаж? Нужна мелкая программа? Нужен плакат? Вы знаете где меня найти. Телеграм, Вконтакте, Дискорд: @mechunt.
- <section class="images-section">
+  </div>
+
+  <!-- Секция с 3 картинками (исправлена структура) -->
+  <section class="images-section">
     <div class="image-box">
       <div class="image-frame">
-        <img src="1.jpg" alt="Сайт 1">
+        <img src="1.jpg" alt="Арабский шаблон">
         <div class="image-label">Арабский шаблон<br><a href="arab.html">>>>Клик<<<</a></div>
       </div>
     </div>
     <div class="image-box">
       <div class="image-frame">
-        <img src="2.jpg" alt="Сайт 2">
+        <img src="2.jpg" alt="Французский шаблон">
         <div class="image-label">Француз. шаблон<br><a href="https://youtu.be/dQw4w9WgXcQ?si=h-EQsUb0tzm6nixR">>>>Клик<<<</a></div>
       </div>
     </div>
     <div class="image-box">
       <div class="image-frame">
-        <img src="3.jpg" alt="Сайт 3">
-        <div class="image-label">Арабский шаблон<br><a href="https:/youtu.be/9OZ5AmKlFH4?si=KM_SDG5MwqhsM-wm">>>>Клик<<<</a></div>
+        <img src="3.jpg" alt="Арабский шаблон">
+        <div class="image-label">Арабский шаблон<br><a href="https://youtu.be/9OZ5AmKlFH4?si=KM_SDG5MwqhsM-wm">>>>Клик<<<</a></div>
       </div>
     </div>
   </section>
 
-
   <!-- Ссылка внизу -->
   <div class="link-section">
     <a href="https://t.me/mechuntik" class="main-link">Подписаться на меня в телеге</a>
-
   </div>
 </body>
 </html>
