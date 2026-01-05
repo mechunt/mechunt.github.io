@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>mechunt | Портфолио</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Montserrat, sans-serif;
+    }
+
+    /* Чёрная шапка */
+    .site-header {
+      background: #3a0509;
+      color: #fff;
+      padding: 20px 40px;
+      font-size: 60px;
+      font-weight: 700;
+    }
+
+    /* Блок с гифкой */
+    .gif-block {
+      background: url("1.gif") center center no-repeat;
+      background-size: cover; /* гифка на всю ширину окна [web:5][web:8] */
+      height: 1100px;          /* подбирайте по нужной высоте */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #777;
+      font-size: 200px;
+      font-weight: bold;
+    }
+.gif-wrapper {
+  width: 160%;
+}
+
+.gif-wrapper img {
+  display: block;
+  max-width: 100%;   /* ширина не больше контейнера [web:40][web:51] */
+  height: auto;      /* высота считается автоматически, пропорции сохраняются [web:45] */
+}
+    /* Зелёный блок с текстом */
+    .bottom-text {
+      background: #352122;
+      color: #fff;
+      padding: 30px 60px;
+      font-size: 32px;
+      font-weight: bold;
+    }
+    /* Секция с 3 картинками */
+    .images-section {
+      background: #352122; /* чёрный фон как на примере [file:23] */
+      padding: 60px;
+      display: flex;
+      justify-content: space-around;
+      align-items: flex-start;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .image-box {
+      flex: 1;
+      max-width: 500px;
+      text-align: center;
+      color: #fff;
+    }
+
+    /* Белый прямоугольник за фото и текстом */
+    .image-frame {
+      background: #fff;
+      padding: 20px;
+      border-radius: 0px; /* лёгкие скругления для современного вида */
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3); /* тень как на реальных макетах [web:8] */
+    }
+
+    .image-box img {
+      width: 100%;
+      height: auto;
+      object-fit: cover; /* чтобы картинки заполняли рамку [web:8] */
+      margin-bottom: 10px;
+      background: #666; /* серый фон для заглушки */
+    }
+
+    .image-label {
+      color: #000 !important;
+      font-size: 40px;
+      font-weight: bold;
+    }
+
+    /* Ссылка внизу */
+    .link-section {
+      background: #000;
+      padding: 40px 60px;
+      text-align: center;
+    }
+
+    .main-link {
+      color: #fff;
+      font-size: 24px;
+      font-weight: bold;
+      text-decoration: none;
+      border: 2px solid #fff;
+      padding: 15px 30px;
+      display: inline-block;
+      transition: background 0.3s;
+    }
+
+    .main-link:hover {
+      background: #fff;
+      color: #000;
+    }
+
+    @media (max-width: 768px) {
+      .images-section {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="site-header">
+    mechunt | Портфолио
+  </div>
+
+<div class="gif-block">
+
+</div>
+
+  <div class="bottom-text">
+    Нужен шаблон? Нужен мини монтаж? Нужна мелкая программа? Нужен плакат? Вы знаете где меня найти. Телеграм, Вконтакте, Дискорд: @mechunt.
+ <section class="images-section">
+    <div class="image-box">
+      <div class="image-frame">
+        <img src="1.jpg" alt="Сайт 1">
+        <div class="image-label">Арабский шаблон<br><a href="arab.html">>>>Клик<<<</a></div>
+      </div>
+    </div>
+    <div class="image-box">
+      <div class="image-frame">
+        <img src="2.jpg" alt="Сайт 2">
+        <div class="image-label">Француз. шаблон<br><a href="https://youtu.be/dQw4w9WgXcQ?si=h-EQsUb0tzm6nixR">>>>Клик<<<</a></div>
+      </div>
+    </div>
+    <div class="image-box">
+      <div class="image-frame">
+        <img src="3.jpg" alt="Сайт 3">
+        <div class="image-label">Арабский шаблон<br><a href="https:/youtu.be/9OZ5AmKlFH4?si=KM_SDG5MwqhsM-wm">>>>Клик<<<</a></div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Ссылка внизу -->
+  <div class="link-section">
+    <a href="https://t.me/mechuntik" class="main-link">Подписаться на меня в телеге</a>
+
+  </div>
+</body>
+</html>
