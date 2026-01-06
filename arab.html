@@ -1307,7 +1307,7 @@ footer {
 <h3>Тема (Напиши про {Ваш текст}):</h3>
 <input type="text" id="myInput" placeholder="Введите текст">
 <h3>URL картинки 16:9:</h3>
-<input type="text" id="ImgInput" placeholder="Введите текст">
+<input type="file" id="ImInput" accept="image/*">
 <h3>API-KEY:</h3>
 <input type="text" id="myAPI" placeholder="Введите текст">
 <button id="submitBtn">Отправить</button>
@@ -1543,6 +1543,16 @@ async def load_image(url):
 		# Создаем изображение-заглушку
 		return Image.new('RGB', (800, 600), color='gray')
 
+async def load_image_from_file():
+    file_input = document.getElementById("ImInput")
+    if file_input.files.length == 0:
+        display("Выберите файл")
+        return None
+    file = file_input.files.item(0)
+    array_buf = await file.arrayBuffer()
+    img_bytes = array_buf.to_bytes()
+    return Image.open(io.BytesIO(img_bytes))
+
 # Загружаем первое изображение
 economic = await load_image("https://raw.githubusercontent.com/mechunt/mechunt.github.io/main/economic.png")
 
@@ -1566,9 +1576,10 @@ async def get_input_value(event=None):
 	input_element = document.getElementById("myInput")
 	rAPIKEY = document.getElementById("myAPI")
 	APIKEY = rAPIKEY.value
-	rimg = document.getElementById("ImgInput")
-	imgurl = rimg.value
-	screenshot = await load_image(imgurl)
+	screenshot = await load_image_from_file()
+#	rimg = document.getElementById("ImgInput")
+#	imgurl = rimg.value
+#	screenshot = await load_image(imgurl)
 	topic = input_element.value
 	example = '''такой заметки:
 
